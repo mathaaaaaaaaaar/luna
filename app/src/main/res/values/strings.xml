@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">HR Prima</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="cont">CONTINUE</string>
+
+    <string name="slide_1_title">Cycle Guardian</string>
+    <string name="slide_1_desc">Monitor and manage your menstrual cycle efficiently!</string>
+    <string name="slide_2_title"> Calculate Ovulation Windows</string>
+    <string name="slide_2_desc">Pinpoint your most fertile days accurately.</string>
+    <string name="slide_3_title">Chat with GirlGPT - Empathy Ally</string>
+    <string name="slide_3_desc">Leverage the Power of GPT 3.5 to engage in supportive conversations and advice!</string>
+
+    <string name="add_emp">Add Employee</string>
+    <string name="delete_emp">Delete Employee</string>
+    <string name="list_emp">List Employees</string>
+    <string name="update_emp">Update Employee</string>
+
+    <!-- The below two strings represents the open and close operations of the navigation drawer -->
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="periodin_title">Period In</string>
+    <string name="perioddays_text" />
+    <string name="btnLogPeriod">Log Period</string>
+    <string name="tips_title">Today\'s Tips</string>
+    <string name="btnBack">Back</string>
+    <string name="btnForward"><![CDATA[>]]></string>
+
+</resources>
+
+
