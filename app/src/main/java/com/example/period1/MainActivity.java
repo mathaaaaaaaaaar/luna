@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
     private TextView monthYearText;
+    private TextView randomOne;
     private RecyclerView calendarRecyclerView;
 
 
