@@ -108,7 +108,7 @@ public class ChatActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RequestBody body = RequestBody.create(jsonBody.toString(),JSON);
+        RequestBody body = RequestBody.create(JSON, jsonBody.toString());
         Request  request = new Request.Builder()
                 .url("\n" +
                         "https://api.openai.com/v1/chat/completions")
