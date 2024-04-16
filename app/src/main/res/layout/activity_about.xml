@@ -56,5 +56,20 @@
         android:textSize="16sp"
         android:layout_below="@id/additional_details"
         android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/conclusion_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Luna is your ultimate companion for managing your menstrual health. With Luna, you can effortlessly track your menstrual cycle, fertility, and ovulation. Stay informed about your body's natural rhythms and receive personalized predictions for your next period.
+
+\n\nBut Luna is more than just a period tracker. It's a comprehensive women's health app that offers a range of features to support your well-being. Engage in meaningful conversations with our AI-powered chat feature to address your questions and concerns about women's health.
+
+\n\nDiscover curated content and articles on topics related to menstrual health, fertility, pregnancy, and more. Luna empowers you with knowledge, helping you make informed decisions about your health.
+
+Whether you're planning a pregnancy, managing your menstrual symptoms, or simply curious about your body, Luna is here to guide you on your journey to better health and well-being."
+        android:textSize="16sp"
+        android:layout_below="@id/details_content"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
