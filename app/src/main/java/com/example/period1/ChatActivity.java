@@ -89,6 +89,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     void callAPI(String question){
+        OkHttpClient client = new OkHttpClient();
         //okhttp
         messageList.add(new Message("Typing... ",Message.SENT_BY_BOT));
 
@@ -108,7 +109,7 @@ public class ChatActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RequestBody body = RequestBody.create(JSON, jsonBody.toString());
+        RequestBody body = RequestBody.create(jsonBody.toString(), MediaType.parse("application/json; charset=utf-8"));
         Request  request = new Request.Builder()
                 .url("\n" +
                         "https://api.openai.com/v1/chat/completions")
@@ -140,7 +141,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
                 }else{
-                    addResponse("Failed to load response due to "+response.code());
+                    addResponse("Sorry, I'm currently experiencing issues and unable to respond at the moment. Please try again later "+response);
                 }
             }
         });
