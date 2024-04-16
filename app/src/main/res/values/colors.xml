@@ -7,5 +7,8 @@
     <color name="dark_grey">#5A5A5A</color>
     <color name="gray">#A9A9A9</color>
     <color name="pink">#FF7390</color>
-    <color name="greypink">#FAEEE7</color>
+    <color name="greypink">#FDF1F6</color>
+    <color name="blue">#FFFF</color>
+    <color name="dark">#272731</color>
+
 </resources>

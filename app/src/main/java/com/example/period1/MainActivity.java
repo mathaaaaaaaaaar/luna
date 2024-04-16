@@ -1,8 +1,10 @@
 package com.example.period1;
 
-import static com.example.period1.CalendarUtils.daysInWeekArray;
+
+import static com.example.period1.CalendarUtils.daysInMonthArray;
 import static com.example.period1.CalendarUtils.monthYearFromDate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -11,13 +13,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
+    public static final int LOCATION_PERMISSION_REQUEST_CODE = 100 ;
     private TextView monthYearText;
-    private TextView randomOne;
+
     private RecyclerView calendarRecyclerView;
 
 
@@ -26,10 +31,39 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        CalendarUtils.selectedDate = LocalDate.now();
         initWidgets();
-        setWeekView();
+        CalendarUtils.selectedDate = LocalDate.now();
+        setMonthView();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigation);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_home);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.bottom_home) {
+                // Handle home action
+                return true;
+            } else if (itemId == R.id.bottom_settings) {
+                startActivity(new Intent(getApplicationContext(), WeekViewActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+                return true;
+            } else if (itemId == R.id.bottom_profile) {
+                startActivity(new Intent(getApplicationContext(), PeriodInputActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+                return true;
+            }
+            return false;
+        });
     }
+
+    public void onCalendarIconClick(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
 
     private void initWidgets()
     {
@@ -37,45 +71,41 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         monthYearText = findViewById(R.id.monthYearTV);
     }
 
-    private void setWeekView()
+    private void setMonthView()
     {
         monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
-        ArrayList<LocalDate> days = daysInWeekArray(CalendarUtils.selectedDate);
+        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
-        CalendarAdapter calendarAdapter = new CalendarAdapter(days, this);
+        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
-
     }
 
-
-    public void previousWeekAction(View view)
+    public void previousMonthAction(View view)
     {
-        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1);
-        setWeekView();
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
+        setMonthView();
     }
 
-    public void nextWeekAction(View view)
+    public void nextMonthAction(View view)
     {
-        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1);
-        setWeekView();
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
+        setMonthView();
     }
 
     @Override
     public void onItemClick(int position, LocalDate date)
     {
-        CalendarUtils.selectedDate = date;
-        setWeekView();
+        if(date != null)
+        {
+            CalendarUtils.selectedDate = date;
+            setMonthView();
+        }
     }
 
-    @Override
-    protected void onResume()
+    public void weeklyAction(View view)
     {
-        super.onResume();
+        startActivity(new Intent(this, WeekViewActivity.class));
     }
-
-
-
-
 }

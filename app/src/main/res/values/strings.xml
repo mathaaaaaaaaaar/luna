@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HR Prima</string>
+    <string name="app_name">Luna</string>
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
     <string name="cont">CONTINUE</string>
@@ -21,13 +21,13 @@
     <string name="nav_close">Close</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="periodin_title">Period In</string>
+    <string name="period_status">Period In</string>
     <string name="perioddays_text" />
     <string name="btnLogPeriod">Log Period</string>
-    <string name="tips_title">Today\'s Tips</string>
-    <string name="btnBack">Back</string>
+    <string name="today_title">Today</string>
+    <string name="btnBack"><![CDATA[<]]></string>
     <string name="btnForward"><![CDATA[>]]></string>
 
+    <string name="back"><![CDATA[<-]]></string>
+    <string name="forward"><![CDATA[->]]></string>
 </resources>
-
-
