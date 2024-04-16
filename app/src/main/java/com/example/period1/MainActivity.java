@@ -10,17 +10,31 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+
 import android.view.Menu;
 
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
+
+import com.google.gson.Gson;
+
+import org.jetbrains.annotations.NotNull;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
     private TextView monthYearText;
@@ -33,6 +47,37 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ViewPager2 viewPager = findViewById(R.id.viewPager);
+
+        // Make a network request to the API
+        String url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=abe00b4b0c9c485dbd4d5e5d14e32248";
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String json = response.body().string();
+                Gson gson = new Gson();
+
+                NewsResponse newsResponse = gson.fromJson(json, NewsResponse.class);
+                List<News> newsList = newsResponse.getArticles();
+
+                runOnUiThread(() -> {
+                    NewsAdapter newsAdapter = new NewsAdapter(newsList);
+                    viewPager.setAdapter(newsAdapter);
+                });
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                // Handle the error
+            }
+        });
+
         CalendarUtils.selectedDate = LocalDate.now();
         initWidgets();
         setWeekView();
