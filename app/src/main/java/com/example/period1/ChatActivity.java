@@ -141,7 +141,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
                 }else{
-                    addResponse("Sorry, I'm currently experiencing issues and unable to respond at the moment. Please try again later "+response);
+                    addResponse("Sorry, I'm currently experiencing issues and unable to respond at the moment. Try again later "+response);
                 }
             }
         });

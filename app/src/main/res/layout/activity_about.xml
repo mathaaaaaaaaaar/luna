@@ -31,7 +31,7 @@
         android:id="@+id/app_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Luna is a women's health app that helps to keep track of your period. It predicts when your next period is due and provides a chat feature where you can interact with an AI model to gain more information."
+        android:text="The Luna app is a women's health app that helps to keep track of your period. It predicts when your next period is due and provides a chat feature where you can interact with an AI model to gain more information."
         android:textSize="16sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"/>
