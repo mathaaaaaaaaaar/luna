@@ -27,5 +27,10 @@ public class News {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public String getUrlToImage() {
+        return urlToImage;
+    }
+
 }
 
