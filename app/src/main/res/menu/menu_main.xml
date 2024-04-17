@@ -9,4 +9,7 @@
     <item
         android:id="@+id/about"
         android:title="About" />
+    <item
+        android:id="@+id/edit_user"
+        android:title="Edit User" />
 </menu>

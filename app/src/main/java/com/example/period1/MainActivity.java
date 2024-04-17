@@ -6,7 +6,9 @@ import static com.example.period1.CalendarUtils.monthYearFromDate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,6 +33,10 @@ import okhttp3.Request;
 import okhttp3.Call;
 import okhttp3.Response;
 
+import android.widget.ImageView;
+import android.view.View;
+
+
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 100 ;
@@ -48,8 +54,38 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
 
-
+        ImageView menuIcon = findViewById(R.id.menu_icon);
+        menuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, v);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        // Handle menu item clicks here
+                        if (item.getItemId() == R.id.chat) {// Handle the "Chat" menu item click
+                            // Start ChatActivity when "Chat" menu item is clicked
+                            startActivity(new Intent(MainActivity.this, ChatActivity.class));
+                            return true;
+                        } else if (item.getItemId() == R.id.about) {// Handle the "About" menu item click
+                            // Start AboutActivity when "About" menu item is clicked
+                            startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                            return true;
+                        } else if (item.getItemId() == R.id.edit_user) {// Handle the "About" menu item click
+                            // Start AboutActivity when "About" menu item is clicked
+                            startActivity(new Intent(MainActivity.this, PeriodInputActivity.class));
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.inflate(R.menu.menu_main);
+                popupMenu.show();
+            }
+        });
     }
+
+
 
     public void onCalendarIconClick(View view) {
         Intent intent = new Intent(this, MainActivity.class);
