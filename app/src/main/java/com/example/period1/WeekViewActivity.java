@@ -2,6 +2,7 @@ package com.example.period1;
 
 import static com.example.period1.CalendarUtils.daysInWeekArray;
 import static com.example.period1.CalendarUtils.monthYearFromDate;
+import static com.example.period1.CalendarUtils.selectedDate;
 
 import android.Manifest;
 import android.content.Intent;
@@ -77,10 +78,7 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         requestLocation();
-
-
     }
-
 
     private void initWidgets()
     {
@@ -107,8 +105,6 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
                 startActivity(new Intent(WeekViewActivity.this, MainActivity.class));
             }
         });
-
-
     }
 
     private void setWeekView() {
@@ -124,8 +120,6 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         setEventAdpater();
     }
 
-
-
     public void previousWeekAction(View view)
     {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1);
@@ -139,8 +133,7 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     }
 
     @Override
-    public void onItemClick(int position, LocalDate date)
-    {
+    public void onItemClick(int position, LocalDate date) {
         CalendarUtils.selectedDate = date;
         setWeekView();
     }
@@ -167,6 +160,8 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     public void logPeriodAction(View view) {
         selectedPeriodDates.clear();
         LocalDate startDate = CalendarUtils.selectedDate;
+       LocalDate firstPeriodDate = null;
+
         for (int i = 0; i < 5; i++) {
             LocalDate currentDate = startDate.plusDays(i);
             selectedPeriodDates.add(currentDate);
@@ -175,18 +170,30 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
             Event newEvent = new Event("Period Day " + (i + 1) + "" , currentDate, LocalTime.now());
             Event.eventsList.add(newEvent);
 
+            if (i == 0) {
+                firstPeriodDate = currentDate;
+            }
+        }
 
-            if (currentDate.equals(CalendarUtils.selectedDate)) {
-                // Get the TextView and set its text to the index
-                TextView upcomingDateTextView = findViewById(R.id.upcomingDate);
-                upcomingDateTextView.setText(String.valueOf(i+1));
+        if (firstPeriodDate != null) {
+            // Calculate the difference in days between the selected date and the first day of the period
+            long daysDifference = java.time.temporal.ChronoUnit.DAYS.between(CalendarUtils.selectedDate, firstPeriodDate);
+            String upcomingDateString;
+            if (daysDifference > 0) {
+                upcomingDateString = "Period in " + daysDifference + " days";
+            } else if (daysDifference < 0) {
+                upcomingDateString = "Period started " + Math.abs(daysDifference) + " days ago";
+            } else {
+                upcomingDateString = "Period today";
             }
 
+            // Get the TextView and set its text to the calculated string
+            TextView upcomingDateTextView = findViewById(R.id.upcomingDate);
+            upcomingDateTextView.setText(upcomingDateString);
         }
+
         calendarAdapter.highlightPeriod(selectedPeriodDates);
     }
-
-
 
     private void requestLocation() {
         if (ContextCompat.checkSelfPermission(this,
@@ -247,5 +254,4 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
             }
         }
     }
-
 }

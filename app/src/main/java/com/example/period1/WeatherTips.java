@@ -45,9 +45,9 @@ public class WeatherTips {
     }
 
     public String getRandomTip(double temperatureCelsius) {
-        if (temperatureCelsius < 15) {
+        if (temperatureCelsius < 10) {
             return getRandomTipFromList(coldTips);
-        } else if (temperatureCelsius >= 15 && temperatureCelsius < 25) {
+        } else if (temperatureCelsius >= 10 && temperatureCelsius < 25) {
             return getRandomTipFromList(warmTips);
         } else {
             return getRandomTipFromList(hotTips);
