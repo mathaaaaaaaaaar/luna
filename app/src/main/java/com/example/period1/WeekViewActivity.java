@@ -21,14 +21,22 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,6 +58,10 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
 
     private ArrayList<LocalDate> selectedPeriodDates = new ArrayList<>();
 
+    private ViewPager2 viewPager;
+    private OkHttpClient client;
+    private Request request;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,6 +69,38 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         setContentView(R.layout.activity_week_view);
         initWidgets();
         setWeekView();
+
+        ViewPager2 viewPager = findViewById(R.id.viewPager);
+
+        // Make a network request to the API
+        String url = "https://newsapi.org/v2/everything?q=menstruation&language=en&apiKey=abe00b4b0c9c485dbd4d5e5d14e32248";
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            public void onResponse(@NonNull okhttp3.Call call, @NonNull okhttp3.Response response) throws IOException {
+                String json = response.body().string();
+                Gson gson = new Gson();
+
+                NewsResponse newsResponse = gson.fromJson(json, NewsResponse.class);
+                List<News> newsList = newsResponse.getArticles();
+
+                runOnUiThread(() -> {
+                    NewsAdapter newsAdapter = new NewsAdapter(newsList);
+                    viewPager.setAdapter(newsAdapter);
+                });
+                System.out.println("API Worked");
+            }
+
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                // Handle the error
+                System.out.println("Something wrong");
+            }
+        });
 
         // Set OnClickListener for the "Log Period" button
         Button btnLogPeriod = findViewById(R.id.btnLogPeriod);
