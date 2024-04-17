@@ -3,19 +3,14 @@ package com.example.period1;
 
 public class UserData {
     private String name;
+    private String email;
     private int periodDuration;
     private String lastPeriodDate;
     private int weight;
     private int height;
     private int cycleWindow;
 
-    public UserData(String name, int periodDuration, String lastPeriodDate, int weight, int height, int cycleWindow) {
-        this.name = name;
-        this.periodDuration = periodDuration;
-        this.lastPeriodDate = lastPeriodDate;
-        this.weight = weight;
-        this.height = height;
-        this.cycleWindow = cycleWindow;
+    public UserData() {
     }
 
     public String getName() {
@@ -64,5 +59,13 @@ public class UserData {
 
     public void setCycleWindow(int cycleWindow) {
         this.cycleWindow = cycleWindow;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

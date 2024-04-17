@@ -15,9 +15,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.period1.databinding.ActivityPeriodInputBinding;
+
 import java.util.Calendar;
 
 public class PeriodInputActivity extends AppCompatActivity {
+
+    ActivityPeriodInputBinding periodInputBinding;
 
     private EditText nameEditText;
     private EditText periodDurationEditText;
@@ -29,10 +33,15 @@ public class PeriodInputActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
+    DBHelper dbh;
+    boolean insertStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_period_input);
+        periodInputBinding = ActivityPeriodInputBinding.inflate(getLayoutInflater());
+        View view = periodInputBinding.getRoot();
+        setContentView(view);
 
         // Initialize views
         nameEditText = findViewById(R.id.nameEditText);
@@ -46,6 +55,8 @@ public class PeriodInputActivity extends AppCompatActivity {
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
 initWidgets();
+
+dbh = new DBHelper(this);
 
         // Set onClickListener for Last Period Date EditText
         lastPeriodDateEditText.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +96,15 @@ initWidgets();
 
     }
     private void saveUserData() {
+        UserData usrObj = CreateUser();
+        insertStatus = dbh.InsertUser(usrObj);
+
+        if (insertStatus) {
+            Toast.makeText(this, "User Added", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+        }
+
         // Retrieve data from EditText fields
         String name = nameEditText.getText().toString();
         String periodDurationText = periodDurationEditText.getText().toString();
@@ -137,6 +157,8 @@ initWidgets();
             return;
         }
 
+
+
         // Save data to SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("Name", name);
@@ -148,6 +170,17 @@ initWidgets();
         editor.apply();
 
         Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+    }
+
+    public UserData CreateUser() {
+        UserData objUsr1 = new UserData();
+        objUsr1.setName(periodInputBinding.nameEditText.getText().toString().trim());
+        objUsr1.setPeriodDuration(Integer.parseInt(periodInputBinding.periodDurationEditText.getText().toString().trim()));
+        objUsr1.setLastPeriodDate(periodInputBinding.lastPeriodDateEditText.getText().toString().trim());
+        objUsr1.setHeight(Integer.parseInt(periodInputBinding.heightEditText.getText().toString().trim()));
+        objUsr1.setWeight(Integer.parseInt(periodInputBinding.weightEditText.getText().toString().trim()));
+        objUsr1.setCycleWindow(Integer.parseInt(periodInputBinding.cycleWindowEditText.getText().toString().trim()));
+        return objUsr1;
     }
 
 

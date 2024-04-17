@@ -70,13 +70,13 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         initWidgets();
         setWeekView();
 
-        ViewPager2 viewPager = findViewById(R.id.viewPager);
+        viewPager = findViewById(R.id.viewPager);
 
         // Make a network request to the API
         String url = "https://newsapi.org/v2/everything?q=menstruation&language=en&apiKey=abe00b4b0c9c485dbd4d5e5d14e32248";
-        OkHttpClient client = new OkHttpClient();
+        client = new OkHttpClient();
 
-        Request request = new Request.Builder()
+        request = new Request.Builder()
                 .url(url)
                 .build();
 
